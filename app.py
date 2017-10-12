@@ -13,6 +13,7 @@ db.init_app(app)
 
 # Register blueprints
 app.register_blueprint(controllers.index.blueprint)
+app.register_blueprint(controllers.users.blueprint, url_prefix='/users')
 
 
 # For development with Flask Click
