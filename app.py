@@ -4,20 +4,22 @@ import controllers
 import click
 
 from models import db
+from utils import bcrypt
 import config
 
 
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
+bcrypt.init_app(app)
 
 # Register blueprints
 app.register_blueprint(controllers.index.blueprint)
 app.register_blueprint(controllers.users.blueprint, url_prefix='/users')
 
 
-# For development with Flask Click
 
+# For development with Flask Click
 def create_app(info=None):
     return app
 
