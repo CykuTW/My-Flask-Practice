@@ -1,5 +1,7 @@
+import models
 from flask import Blueprint, request, render_template, escape, abort
 from flask.views import View, MethodView
+from utils import bcrypt
 
 
 blueprint = Blueprint('users', __name__)
@@ -12,7 +14,12 @@ class LoginView(MethodView):
     
     def post(self):
         if all(key in request.form for key in ('username', 'password')):
-            return escape(request.form['username'])
+            username = request.form['username']
+            password = request.form['password']
+            user = models.User.query.filter_by(username=username).first()
+            if bcrypt.check_password_hash(user.password, password):
+                return '<h1>Hi, {}</h1>'.format(escape(username))
+            return '<h1>The username or password was incorrect.</h1>'
         else:
             abort(400)
 
