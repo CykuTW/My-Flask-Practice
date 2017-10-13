@@ -1,3 +1,6 @@
+# Custom config file
+config.py
+
 # IDE or Editor
 .vscode/
 
