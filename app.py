@@ -1,11 +1,11 @@
-from flask import Flask
-from flask.cli import FlaskGroup
 import controllers
 import click
+from flask import Flask
+from flask.cli import FlaskGroup
 
+import config
 from models import db
 from utils import bcrypt
-import config
 
 
 app = Flask(__name__)
