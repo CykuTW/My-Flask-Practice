@@ -1,6 +1,8 @@
 import models
-from flask import Blueprint, request, render_template, escape, abort
+import validators
+from flask import Blueprint, request, render_template, escape, abort, session
 from flask.views import View, MethodView
+from flask_validate import validate
 from utils import bcrypt
 
 
@@ -12,16 +14,15 @@ class LoginView(MethodView):
     def get(self):
         return render_template('users/login.html')
     
+    @validate(validators.users.LoginValidator())
     def post(self):
-        if all(key in request.form for key in ('username', 'password')):
-            username = request.form['username']
-            password = request.form['password']
-            user = models.User.query.filter_by(username=username).first()
-            if bcrypt.check_password_hash(user.password, password):
-                return '<h1>Hi, {}</h1>'.format(escape(username))
-            return '<h1>The username or password was incorrect.</h1>'
-        else:
-            abort(400)
-
+        username = request.form['username']
+        password = request.form['password']
+        user = models.User.query.filter_by(username=username).first()
+        if bcrypt.check_password_hash(user.password, password):
+            session['id'] = user.id
+            session['username'] = user.username
+            return '<h1>Hi, {}</h1>'.format(escape(username))
+        return '<h1>The username or password was incorrect.</h1>'
 
 blueprint.add_url_rule('/login', view_func=LoginView.as_view(LoginView.__name__))
