@@ -1,0 +1,1 @@
+from flask_validate.validate import validate
