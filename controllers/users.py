@@ -25,4 +25,12 @@ class LoginView(MethodView):
             return '<h1>Hi, {}</h1>'.format(escape(username))
         return '<h1>The username or password was incorrect.</h1>'
 
+
+class ProfileView(MethodView):
+
+    def get(self):
+        return ''
+
+
 blueprint.add_url_rule('/login', view_func=LoginView.as_view(LoginView.__name__))
+blueprint.add_url_rule('/profile', view_func=ProfileView.as_view(ProfileView.__name__))
