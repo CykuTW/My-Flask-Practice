@@ -1,4 +1,4 @@
-import controllers
+import views
 import click
 from flask import Flask
 from flask.cli import FlaskGroup
@@ -14,8 +14,8 @@ db.init_app(app)
 bcrypt.init_app(app)
 
 # Register blueprints
-app.register_blueprint(controllers.index.blueprint)
-app.register_blueprint(controllers.users.blueprint, url_prefix='/users')
+app.register_blueprint(views.index.blueprint)
+app.register_blueprint(views.users.blueprint, url_prefix='/users')
 
 
 
